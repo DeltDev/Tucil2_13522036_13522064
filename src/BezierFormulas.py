@@ -8,3 +8,8 @@ def QuadraticBezier(ControlPoint0 : Point, ControlPoint1: Point, ControlPoint2: 
     Q2 = LinearBezier(ControlPoint1, ControlPoint2, t)
     R = LinearBezier(Q1,Q2,t)
     return R
+
+# algo brute force
+def BruteForceBezier(ControlPoint0 : Point, ControlPoint1: Point, ControlPoint2: Point, iteration: int) -> list[Point]:
+    # termasuk titik ujungnya
+    return [QuadraticBezier(ControlPoint0, ControlPoint1, ControlPoint2, n/iteration) for n in range (iteration + 1)]
