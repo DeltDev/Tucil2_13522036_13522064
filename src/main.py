@@ -2,6 +2,9 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox as msgbox
+import BezierFormulas as Bezier
+from point import *
+from matplotlib import pyplot as plt
 #Setup window root GUI 
 root = tk.Tk()
 root.configure(bg="gray")
@@ -42,11 +45,26 @@ def OpenNextWindow(): #buka window yang mengoutputkan data input
         p1y = float(P1_Y.get())
         p2x = float(P2_X.get())
         p2y = float(P2_Y.get())
-        i = int(ITERATION.get())
+        it = int(ITERATION.get())
     except ValueError: #keluarkan pesan error jika input tidak valid
         msgbox.showerror("Program Error", "Input Anda tidak valid! \n Silahkan ulangi input data Anda.")
         return        
     #setup window kedua
+    P0 = Point(p0x,p0y)
+    P1 = Point(p1x,p1y)
+    P2 = Point(p2x,p2y)
+    result = Bezier.BruteForceBezier(P0,P1,P2,it)
+    plt.rcParams["figure.figsize"] = [7.00, 3.50]
+    plt.rcParams["figure.autolayout"] = True
+    plt.xlim(0, 5)
+    plt.ylim(0, 5)
+    plt.grid()
+    plt.plot(P0.x, P0.y, marker="o", markersize=20, markeredgecolor="red", markerfacecolor="green")
+    plt.plot(P1.x, P1.y, marker="o", markersize=20, markeredgecolor="red", markerfacecolor="green")
+    plt.plot(P2.x, P2.y, marker="o", markersize=20, markeredgecolor="red", markerfacecolor="green")
+    for i in result:
+        plt.plot(i.x, i.y, marker="o", markersize=20, markeredgecolor="red", markerfacecolor="blue")
+    plt.show()
     newWindow = tk.Toplevel(root)
     newWindow.title("Window baru")
     newWindow.config(bg = "gray")
@@ -76,7 +94,7 @@ def OpenNextWindow(): #buka window yang mengoutputkan data input
     P2YLabelOutput = ttk.Label(newWindowFrame,text = "Y: " + str(p2y))
     P2YLabelOutput.pack(padx=5,pady=5,fill="x",expand=True)
     #Label output data banyak iterasi
-    IterationLabelOutput = ttk.Label(newWindowFrame,text = "Banyak iterasi: " + str(i))
+    IterationLabelOutput = ttk.Label(newWindowFrame,text = "Banyak iterasi: " + str(it))
     IterationLabelOutput.pack(padx=5,pady=5,fill="x",expand=True)
     #tombol kembali ke root
     newWindowReturn = ttk.Button(newWindowFrame,text="Kembali ke root",command=lambda: ReopenRootWindow(newWindow))
@@ -124,6 +142,5 @@ IterationEntry.pack(padx=5,pady=5,fill="x",expand=True)
 
 NextWindowButton = ttk.Button(input_frame5,text="Simulasikan Kurva Bezier",command=OpenNextWindow) #tombol untuk mensimulasikan Kurva Bezier
 NextWindowButton.pack(padx=5,fill="x",expand=True)
-
 
 root.mainloop() #fungsi untuk mencegah window root tertutup otomatis
