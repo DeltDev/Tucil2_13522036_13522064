@@ -31,16 +31,29 @@ def BruteForceBezier(ControlPoint0 : Point, ControlPoint1: Point, ControlPoint2:
     return [QuadraticBezier(ControlPoint0, ControlPoint1, ControlPoint2, n/iteration) for n in range (iteration + 1)]
 
 # divide and conquer
-def DivideAndConquerBezier(ControlPoint0 : Point, ControlPoint1: Point, ControlPoint2: Point, iteration: int) -> list[list[list[Point]]]:
+
+# gak yakin gimana untuk bonus2nya kalau butuh extra info untuk visualizer
+"""def DivideAndConquerBezierWithExtraSteps(ControlPoint0 : Point, ControlPoint1: Point, ControlPoint2: Point, iteration: int) -> list[list[list[Point]]]:
     Midpoint1 = Point((ControlPoint0.x + ControlPoint1.x) / 2, (ControlPoint0.y + ControlPoint1.y) / 2)
     Midpoint2 = Point((ControlPoint1.x + ControlPoint2.x) / 2, (ControlPoint1.y + ControlPoint2.y) / 2)
     ExtraPoint = Point((Midpoint1.x + Midpoint2.x) / 2, (Midpoint1.y + Midpoint2.y) / 2)
     if (iteration == 1):
         return [[[ControlPoint0, ControlPoint1, ControlPoint2, Midpoint1, Midpoint2, ExtraPoint]]]
     else:
+        Left = DivideAndConquerBezierWithExtraSteps(ControlPoint0, Midpoint1, ExtraPoint, iteration - 1)
+        Right = DivideAndConquerBezierWithExtraSteps(ExtraPoint, Midpoint2, ControlPoint2, iteration - 1)
+        E = [[[ControlPoint0, ControlPoint1, ControlPoint2, Midpoint1, Midpoint2, ExtraPoint]]] + [(Left[i] + Right[i]) for i in range (len(Left))]
+        return E"""
+
+# bare minimum version
+def DivideAndConquerBezier(ControlPoint0 : Point, ControlPoint1: Point, ControlPoint2: Point, iteration: int) -> list[Point]:
+    Midpoint1 = Point((ControlPoint0.x + ControlPoint1.x) / 2, (ControlPoint0.y + ControlPoint1.y) / 2)
+    Midpoint2 = Point((ControlPoint1.x + ControlPoint2.x) / 2, (ControlPoint1.y + ControlPoint2.y) / 2)
+    ExtraPoint = Point((Midpoint1.x + Midpoint2.x) / 2, (Midpoint1.y + Midpoint2.y) / 2)
+    if (iteration == 1):
+        return [ControlPoint0, ExtraPoint, ControlPoint2]
+    else:
         Left = DivideAndConquerBezier(ControlPoint0, Midpoint1, ExtraPoint, iteration - 1)
         Right = DivideAndConquerBezier(ExtraPoint, Midpoint2, ControlPoint2, iteration - 1)
-        E = [[[ControlPoint0, ControlPoint1, ControlPoint2, Midpoint1, Midpoint2, ExtraPoint]]] + [(Left[i] + Right[i]) for i in range (len(Left))]
-        return E
-
-print(DivideAndConquerBezier(Point(1, 2), Point(2, 3), Point(3, 2), 3))
+        Left.pop()
+        return (Left + Right)
