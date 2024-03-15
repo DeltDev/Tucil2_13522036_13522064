@@ -2,13 +2,11 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox as msgbox
 import BezierFormulas as Bezier
-from point import *
+from point import Point
 from matplotlib import pyplot as plt
 from visualizer import spawnPygame
-from threading import Thread,Event
 import pygame
 import time
-# Define a function to create and run the tkinter window
 def disable_close_window(): #matikan fungsi tombol close default
     pass
 def spawnInfoWindow(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root):
@@ -21,12 +19,11 @@ def spawnInfoWindow(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root):
         p2x = float(P2_X.get())
         p2y = float(P2_Y.get())
         it = int(ITERATION.get())
-
+        
     except ValueError: #keluarkan pesan error jika input tidak valid
         msgbox.showerror("Program Error", "Input Anda tidak valid! \n Silahkan ulangi input data Anda.")
         return        
     #setup window kedua
-    
     root.withdraw()
     newWindow = tk.Toplevel(root)
     newWindow.title("Window baru")
@@ -60,15 +57,12 @@ def spawnInfoWindow(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root):
     IterationLabelOutput = ttk.Label(newWindowFrame,text = "Banyak iterasi: " + str(it))
     IterationLabelOutput.pack(padx=5,pady=5,fill="x",expand=True)
     #tombol kembali ke root
-    newWindowReturn = ttk.Button(newWindowFrame,text="Kembali ke root",command=lambda: StopBranchWindows(root))
+    newWindowReturn = ttk.Button(newWindowFrame,text="Visualisasikan!",command=lambda: OpenVisualizer(newWindow))
     newWindowReturn.pack(padx=5,pady=5,fill="x",expand=True)
 
-def StopBranchWindows(root):
+def OpenVisualizer(newWindow):
+    newWindow.destroy()
+    spawnPygame()
 
-    root.deiconify()
 def runBranchThread(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root):
-
-    tkinter_thread = Thread(target=spawnInfoWindow, args=(P0_X, P0_Y, P1_X, P1_Y, P2_X, P2_Y, ITERATION, root))
-    tkinter_thread.start()
-    pygame_thread = Thread(target = spawnPygame)
-    pygame_thread.start()
+    spawnInfoWindow(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root)
