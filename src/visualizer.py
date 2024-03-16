@@ -3,7 +3,7 @@ import sys
 import time
 from point import Point
 
-def spawnPygame(ControlPointList):
+def spawnPygame(ControlPointList,BezierPointList):
     #inisialisasi pygame
     pygame.init()
     font = pygame.font.Font(None,20)
@@ -125,8 +125,25 @@ def spawnPygame(ControlPointList):
         #gambar garis di antara control point
         for i in range(0,len(scaledControlPointList)-1):
             drawLineAtoB(scaledControlPointList[i],scaledControlPointList[i+1],screen,BLUE,1000)
+        pygame.time.wait(2000) #delay 2 detik
+        pygame.display.flip() #perbarui display
 
-        pygame.time.wait(2000) #delay 3 detik
+        #gambar titik bezier (brute force)
+        scaledBezierPointList = []
+
+        for i in BezierPointList:
+            scaledPoint = scaleToScreen(i,screenWidth,screenHeight,xMax,yMax) #rescale agar sesuai dengan layar di pygame
+            scaledPoint = Point(scaledPoint.x,scaledPoint.y,i.pointName)
+            scaledBezierPointList.append(scaledPoint)
+            pygame.draw.circle(screen,RED,(scaledPoint.x,scaledPoint.y),10) #gambar control point (titik warna biru) (y dibalik karena pygame koordinat y positif arahnya ke bawah)
+            pygame.time.wait(500) #delay 0.5 detik
+            pygame.display.flip() #perbarui titik
+        pygame.time.wait(2000) #delay 2 detik
+        pygame.display.flip() #perbarui display
+        #gambar kurva bezier (brute force)
+        for i in range(0,len(scaledBezierPointList)-1):
+            drawLineAtoB(scaledBezierPointList[i],scaledBezierPointList[i+1],screen,RED,500)
+        pygame.time.wait(2000) #delay 2 detik
         pygame.display.flip() #perbarui display
         pygame.time.Clock().tick(60) #FPS = 60
 

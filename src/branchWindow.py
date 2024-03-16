@@ -25,6 +25,9 @@ def spawnInfoWindow(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root):
         return        
     #daftar control point (tanpa bonus 1)
     ControlPointList =[Point(p0x,p0y,"P0"),Point(p1x,p1y,"P1"),Point(p2x,p2y,"P2")]
+
+    #Bezier (brute force)
+    BruteForceBezierPointList = Bezier.BruteForceBezier(ControlPointList[0],ControlPointList[1],ControlPointList[2],it)
     #setup window kedua
     root.withdraw()
     newWindow = tk.Toplevel(root)
@@ -59,12 +62,12 @@ def spawnInfoWindow(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root):
     IterationLabelOutput = ttk.Label(newWindowFrame,text = "Banyak iterasi: " + str(it))
     IterationLabelOutput.pack(padx=5,pady=5,fill="x",expand=True)
     #tombol kembali ke root
-    newWindowReturn = ttk.Button(newWindowFrame,text="Visualisasikan!",command=lambda: OpenVisualizer(newWindow,ControlPointList))
+    newWindowReturn = ttk.Button(newWindowFrame,text="Visualisasikan!",command=lambda: OpenVisualizer(newWindow,ControlPointList,BruteForceBezierPointList))
     newWindowReturn.pack(padx=5,pady=5,fill="x",expand=True)
 
-def OpenVisualizer(newWindow,ControlPointList):
+def OpenVisualizer(newWindow,ControlPointList,BezierPointList):
     newWindow.destroy()
-    spawnPygame(ControlPointList)
+    spawnPygame(ControlPointList,BezierPointList)
 
 def runBranchThread(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root):
     spawnInfoWindow(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root)
