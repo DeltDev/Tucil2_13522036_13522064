@@ -57,18 +57,20 @@ def spawnPygame(ControlPointList):
         #10 ke bawah
         divisorY = newOrigin.y
         divisorValue = 0
-        for i in range(10):
-            divisorY += (screenHeight//20-5)
+        for i in range(11):
+            divisorY += (screenHeight//22)
             divisorValue -= (yMax / 10)
             pygame.draw.line(screen,BLACK,(0,divisorY),(screenWidth,divisorY),1)
             ySurface = font.render(f"{divisorValue:.2f}", True, BLACK) 
             yRect = ySurface.get_rect()
             yRect.topleft = (newOrigin.x + 10, divisorY) 
             screen.blit(ySurface, yRect)
+            
+            
         #10 ke atas
         divisorY = newOrigin.y
         divisorValue = 0
-        for i in range(10):
+        for i in range(11):
             divisorValue += (yMax / 10)
             divisorY -= (screenHeight//20-5)
             pygame.draw.line(screen,BLACK,(0,divisorY),(screenWidth,divisorY),1)
@@ -79,8 +81,8 @@ def spawnPygame(ControlPointList):
         #10 ke kanan
         divisorX = newOrigin.x
         divisorValue = 0
-        for i in range(10):
-            divisorX += (screenWidth//20-5)
+        for i in range(11):
+            divisorX += (screenWidth//22)
             divisorValue += (xMax / 10)
             pygame.draw.line(screen,BLACK,(divisorX,0),(divisorX,screenHeight),1)
             xSurface = font.render(f"{divisorValue:.2f}", True, BLACK) 
@@ -90,22 +92,27 @@ def spawnPygame(ControlPointList):
         #10 ke kiri
         divisorX = newOrigin.x
         divisorValue = 0
-        for i in range(10):
-            divisorX -= (screenWidth//20-5)
+        for i in range(11):
+            divisorX -= (screenWidth//22)
             divisorValue -= (xMax / 10)
             pygame.draw.line(screen,BLACK,(divisorX,0),(divisorX,screenHeight),1)
             xSurface = font.render(f"{divisorValue:.2f}", True, BLACK) 
             XRect = xSurface.get_rect()
             XRect.topleft = (divisorX, newOrigin.y - 20) 
             screen.blit(xSurface, XRect)
+        #perbarui yMax dan xMax untuk scaling
+        xMax += (xMax/10)
+        yMax += (yMax/10)
         #gambar semua control point di pygame
         for i in ControlPointList:
-             pygame.draw.circle(screen,BLUE,(newOrigin.x + i.x,newOrigin.y-i.y),10) #gambar control point (titik warna biru) (y dibalik karena pygame koordinat y positif arahnya ke bawah)
+            scaledPoint = scaleToScreen(i,screenWidth,screenHeight,xMax,yMax)
+            scaledPoint = Point(scaledPoint.x,scaledPoint.y- 2 * abs(newOrigin.y - scaledPoint.y),i.pointName) #balik posisi y karena koordinat sumbu y di pygame terbalik
+            pygame.draw.circle(screen,BLUE,(scaledPoint.x,scaledPoint.y),10) #gambar control point (titik warna biru) (y dibalik karena pygame koordinat y positif arahnya ke bawah)
 
-             text_surface = font.render(f"{i.pointName} ({i.x}, {i.y})", True, BLACK)  # Black color
-             text_rect = text_surface.get_rect()
-             text_rect.topleft = (newOrigin.x+i.x + 10, newOrigin.y-i.y - 20)  # Position the text near the point (y dibalik karena di pygame koordinat y positif arahnya ke bawah)
-             screen.blit(text_surface, text_rect)
+            text_surface = font.render(f"{i.pointName} ({i.x}, {i.y})", True, BLACK)  # Black color
+            text_rect = text_surface.get_rect()
+            text_rect.topleft = (scaledPoint.x + 10, scaledPoint.y - 20)  # Position the text near the point (y dibalik karena di pygame koordinat y positif arahnya ke bawah)
+            screen.blit(text_surface, text_rect)
 
 
         pygame.display.flip() #perbarui display
@@ -123,5 +130,12 @@ def getMaximumCoordinates(ControlPointList):
 
     return retX,retY
 
-    
-    
+def scaleToScreen(P : Point, screenWidth, screenHeight, xMax, yMax) -> Point:
+    xMin = -xMax
+    yMin = -yMax
+
+    scaledX = ((P.x - xMin) / (xMax-xMin)) * screenWidth
+    scaledY = ((P.y - yMin) / (yMax-yMin)) * screenHeight
+
+    scaledPoint = Point(scaledX,scaledY,P.pointName)
+    return scaledPoint
