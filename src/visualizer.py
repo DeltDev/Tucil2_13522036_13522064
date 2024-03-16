@@ -1,5 +1,6 @@
 import pygame
 import sys
+import time
 from point import Point
 
 def spawnPygame(ControlPointList):
@@ -100,6 +101,7 @@ def spawnPygame(ControlPointList):
             XRect = xSurface.get_rect()
             XRect.topleft = (divisorX, newOrigin.y - 20) 
             screen.blit(xSurface, XRect)
+        pygame.display.flip() #tampilkan koordinat kartesius
         #perbarui yMax dan xMax untuk scaling
         xMax += (xMax/10)
         yMax += (yMax/10)
@@ -114,7 +116,12 @@ def spawnPygame(ControlPointList):
             text_rect.topleft = (scaledPoint.x + 10, scaledPoint.y - 20)  # Position the text near the point (y dibalik karena di pygame koordinat y positif arahnya ke bawah)
             screen.blit(text_surface, text_rect)
 
+            pygame.time.wait(1000) #delay 1 detik
+            pygame.display.flip() #perbarui titik
 
+            
+
+        pygame.time.wait(5000) #delay 5 detik
         pygame.display.flip() #perbarui display
         pygame.time.Clock().tick(60) #FPS = 60
 
