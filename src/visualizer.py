@@ -50,6 +50,29 @@ def spawnPygame(ControlPointList):
         yRect = ySurface.get_rect()
         yRect.topleft = (newOrigin.x + 10, 10) 
         screen.blit(ySurface, yRect)
+        #dapatkan nilai koordinat x dan y maksimum (nilai mutlak)
+        #bertujuan untuk scaling
+        xMax,yMax = getMaximumCoordinates(ControlPointList)
+        #bagi sumbu x menjadi 10 ke atas dan 10 ke bawah
+        #10 ke bawah
+        divisorY = newOrigin.y
+        for i in range(10):
+            divisorY += (screenHeight//20)
+            pygame.draw.line(screen,BLACK,(0,divisorY),(screenWidth,divisorY),1)
+        #10 ke atas
+        divisorY = newOrigin.y
+        for i in range(10):
+            divisorY -= (screenHeight//20)
+            pygame.draw.line(screen,BLACK,(0,divisorY),(screenWidth,divisorY),1)
+        #10 ke kanan
+        divisorX = newOrigin.x
+        for i in range(10):
+            divisorX += (screenWidth//20)
+            pygame.draw.line(screen,BLACK,(divisorX,0),(divisorX,screenHeight),1)
+        divisorX = newOrigin.x
+        for i in range(10):
+            divisorX -= (screenWidth//20)
+            pygame.draw.line(screen,BLACK,(divisorX,0),(divisorX,screenHeight),1)
         #gambar semua control point di pygame
         for i in ControlPointList:
              pygame.draw.circle(screen,BLUE,(newOrigin.x + i.x,newOrigin.y-i.y),10) #gambar control point (titik warna biru) (y dibalik karena pygame koordinat y positif arahnya ke bawah)
@@ -62,5 +85,18 @@ def spawnPygame(ControlPointList):
 
         pygame.display.flip() #perbarui display
         pygame.time.Clock().tick(60) #FPS = 60
+
+def getMaximumCoordinates(ControlPointList):
+    retX = -9999999999999999999999999999999
+    retY = -9999999999999999999999999999999
+
+    for i in ControlPointList:
+        if(abs(i.x) > retX):
+            retX = abs(i.x)
+        if(abs(i.y)> retY):
+            retY = abs(i.y)
+
+    return retX,retY
+
     
     
