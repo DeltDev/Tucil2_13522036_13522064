@@ -11,7 +11,7 @@ import branchWindow as BW
 #Setup window root GUI 
 root = tk.Tk()
 root.configure(bg="gray")
-root.geometry("540x720")
+root.geometry("540x1000")
 root.resizable(False,False)
 root.title("Simulasi Kurva Bezier")
 
@@ -26,6 +26,8 @@ input_frame4 = ttk.Frame(root)
 input_frame4.pack(padx=5,pady=5,fill="x",expand=True)
 input_frame5 = ttk.Frame(root)
 input_frame5.pack(padx=5,pady=5,fill="x",expand=True)
+input_frame6 = ttk.Frame(root)
+input_frame6.pack(padx=5,pady=5,fill="x",expand=True)
 #setup nilai-nilai yang ditangkap oleh gui
 P0_X = tk.StringVar()
 P0_Y = tk.StringVar()
@@ -73,6 +75,19 @@ IterationLabel = ttk.Label(input_frame4,text="Banyak Iterasi")
 IterationLabel.pack(padx=5,pady=5,fill="x",expand=True)
 IterationEntry = ttk.Entry(input_frame4,textvariable=ITERATION)
 IterationEntry.pack(padx=5,pady=5,fill="x",expand=True)
-NextWindowButton = ttk.Button(input_frame5,text="Simulasikan Kurva Bezier",command= lambda: BW.runBranchThread(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root)) #tombol untuk mensimulasikan Kurva Bezier
+#input radio button mode pembentukan kurva bezier
+RadioButtonLabel =ttk.Label(input_frame5,text="Pilih Metode Pembentukan Kurva Bezier")
+RadioButtonLabel.pack(padx=5,pady=5,fill="x",expand=True)
+MODES =[
+    ("Brute Force","Brute Force"),
+    ("Divide And Conquer","Divide And Conquer")
+]
+
+BezierMethod = tk.StringVar()
+BezierMethod.set("Brute Force")
+for text, mode in MODES:
+    RB = ttk.Radiobutton(input_frame5,text=text,variable=BezierMethod, value=mode)
+    RB.pack(padx=5,pady=5,fill="x",expand=True)
+NextWindowButton = ttk.Button(input_frame6,text="Simulasikan Kurva Bezier",command= lambda: BW.runBranchThread(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root,BezierMethod)) #tombol untuk mensimulasikan Kurva Bezier
 NextWindowButton.pack(padx=5,fill="x",expand=True)
 root.mainloop() #fungsi untuk mencegah window root tertutup otomatis
