@@ -1,56 +1,40 @@
-import tkinter as tk
-from threading import Thread, Event
-import time
-from branchWindow import spawnInfoWindow,spawnPygame
-# Define a flag to control the execution of tkinter thread
-tkinter_stop_flag = Event()
+import pygame
+import sys
 
-# Define a flag to control the execution of pygame thread
-pygame_stop_flag = Event()
+# Initialize Pygame
+pygame.init()
 
-# Function for tkinter thread
-def tkinter_thread_function(P0_X, P0_Y, P1_X, P1_Y, P2_X, P2_Y, ITERATION, root):
-    spawned = False
-    while not tkinter_stop_flag.is_set():
-        if(not spawned):
-            spawnInfoWindow(P0_X, P0_Y, P1_X, P1_Y, P2_X, P2_Y, ITERATION, root)
-            spawned = True
-        time.sleep(1)  # Adjust the sleep time as needed
+# Set up the screen
+screen_width = 800
+screen_height = 600
+screen = pygame.display.set_mode((screen_width, screen_height))
+pygame.display.set_caption("Point with Name and Coordinates")
 
-# Function for pygame thread
-def pygame_thread_function():
-    spawned = False
-    while not pygame_stop_flag.is_set():
-        if(not spawned):
-            spawnPygame()
-            spawned = True
-        time.sleep(1)  # Adjust the sleep time as needed
+# Define the point's properties
+point_name = "A"
+point_x = 200
+point_y = 300
+point_color = (255, 0, 0)  # Red color
+font = pygame.font.Font(None, 36)  # Font for text rendering
 
-# Function to stop both threads
-def stop_threads():
-    tkinter_stop_flag.set()
-    pygame_stop_flag.set()
+# Main loop
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
 
-# Create Tkinter window
-root = tk.Tk()
+    # Clear the screen
+    screen.fill((255, 255, 255))  # White background
 
-# Create a button to stop the threads
-stop_button = tk.Button(root, text="Stop Threads", command=stop_threads)
-stop_button.pack()
+    # Draw the point
+    pygame.draw.circle(screen, point_color, (point_x, point_y), 5)  # Draw a small circle as a point
 
-# Start tkinter thread
-tkinter_thread = Thread(target=tkinter_thread_function, args=("1", "2", "3", "4", "5", "6", "7", root))
-tkinter_thread.start()
+    # Render text (point name and coordinates)
+    text_surface = font.render(f"{point_name} ({point_x}, {point_y})", True, (0, 0, 0))  # Black color
+    text_rect = text_surface.get_rect()
+    text_rect.topleft = (point_x + 10, point_y - 20)  # Position the text near the point
+    screen.blit(text_surface, text_rect)
 
-# Start pygame thread
-pygame_thread = Thread(target=pygame_thread_function)
-pygame_thread.start()
-
-# Start the Tkinter event loop
-root.mainloop()
-
-# Wait for both threads to finish
-tkinter_thread.join()
-pygame_thread.join()
-
-print("Main thread exiting.")
+    # Update the display
+    pygame.display.flip()
