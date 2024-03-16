@@ -109,7 +109,7 @@ def spawnPygame(ControlPointList):
         scaledControlPointList = []
         for i in ControlPointList:
             scaledPoint = scaleToScreen(i,screenWidth,screenHeight,xMax,yMax) #rescale agar sesuai dengan layar di pygame
-            scaledPoint = Point(scaledPoint.x,scaledPoint.y- 2 * abs(newOrigin.y - scaledPoint.y),i.pointName) #balik posisi y karena koordinat sumbu y di pygame terbalik
+            scaledPoint = Point(scaledPoint.x,scaledPoint.y,i.pointName)
             scaledControlPointList.append(scaledPoint)
             pygame.draw.circle(screen,BLUE,(scaledPoint.x,scaledPoint.y),10) #gambar control point (titik warna biru) (y dibalik karena pygame koordinat y positif arahnya ke bawah)
 
@@ -124,7 +124,7 @@ def spawnPygame(ControlPointList):
         pygame.display.flip() #perbarui display
         #gambar garis di antara control point
         for i in range(0,len(scaledControlPointList)-1):
-            drawLineAtoB(scaledControlPointList[i],scaledControlPointList[i+1],screen,BLUE)
+            drawLineAtoB(scaledControlPointList[i],scaledControlPointList[i+1],screen,BLUE,1000)
 
         pygame.time.wait(2000) #delay 3 detik
         pygame.display.flip() #perbarui display
@@ -149,10 +149,10 @@ def scaleToScreen(P : Point, screenWidth, screenHeight, xMax, yMax) -> Point:
     scaledX = ((P.x - xMin) / (xMax-xMin)) * screenWidth
     scaledY = ((P.y - yMin) / (yMax-yMin)) * screenHeight
 
-    scaledPoint = Point(scaledX,scaledY,P.pointName)
+    scaledPoint = Point(scaledX,screenHeight-scaledY,P.pointName) #balik nilai y karena di pygame koordinatnya terbalik
     return scaledPoint
 
-def drawLineAtoB(A:Point, B:Point, screen, color):
+def drawLineAtoB(A:Point, B:Point, screen, color,duration):
     pygame.draw.line(screen,color,(A.x,A.y),(B.x,B.y),3)
-    pygame.time.wait(1000)
+    pygame.time.wait(duration)
     pygame.display.flip()
