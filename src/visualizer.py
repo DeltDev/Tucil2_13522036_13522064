@@ -106,22 +106,27 @@ def spawnPygame(ControlPointList):
         xMax += (xMax/10)
         yMax += (yMax/10)
         #gambar semua control point di pygame
+        scaledControlPointList = []
         for i in ControlPointList:
-            scaledPoint = scaleToScreen(i,screenWidth,screenHeight,xMax,yMax)
+            scaledPoint = scaleToScreen(i,screenWidth,screenHeight,xMax,yMax) #rescale agar sesuai dengan layar di pygame
             scaledPoint = Point(scaledPoint.x,scaledPoint.y- 2 * abs(newOrigin.y - scaledPoint.y),i.pointName) #balik posisi y karena koordinat sumbu y di pygame terbalik
+            scaledControlPointList.append(scaledPoint)
             pygame.draw.circle(screen,BLUE,(scaledPoint.x,scaledPoint.y),10) #gambar control point (titik warna biru) (y dibalik karena pygame koordinat y positif arahnya ke bawah)
 
-            text_surface = font.render(f"{i.pointName} ({i.x}, {i.y})", True, BLACK)  # Black color
+            text_surface = font.render(f"{i.pointName} ({i.x}, {i.y})", True, BLACK) 
             text_rect = text_surface.get_rect()
             text_rect.topleft = (scaledPoint.x + 10, scaledPoint.y - 20)  # Position the text near the point (y dibalik karena di pygame koordinat y positif arahnya ke bawah)
             screen.blit(text_surface, text_rect)
 
             pygame.time.wait(1000) #delay 1 detik
             pygame.display.flip() #perbarui titik
+        pygame.time.wait(2000) #delay 5 detik
+        pygame.display.flip() #perbarui display
+        #gambar garis di antara control point
+        for i in range(0,len(scaledControlPointList)-1):
+            drawLineAtoB(scaledControlPointList[i],scaledControlPointList[i+1],screen,BLUE)
 
-            
-
-        pygame.time.wait(5000) #delay 5 detik
+        pygame.time.wait(2000) #delay 3 detik
         pygame.display.flip() #perbarui display
         pygame.time.Clock().tick(60) #FPS = 60
 
@@ -146,3 +151,8 @@ def scaleToScreen(P : Point, screenWidth, screenHeight, xMax, yMax) -> Point:
 
     scaledPoint = Point(scaledX,scaledY,P.pointName)
     return scaledPoint
+
+def drawLineAtoB(A:Point, B:Point, screen, color):
+    pygame.draw.line(screen,color,(A.x,A.y),(B.x,B.y),3)
+    pygame.time.wait(1000)
+    pygame.display.flip()
