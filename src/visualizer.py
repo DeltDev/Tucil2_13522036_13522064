@@ -135,7 +135,7 @@ def spawnPygame(ControlPointList,BezierPointList):
             scaledPoint = scaleToScreen(i,screenWidth,screenHeight,xMax,yMax) #rescale agar sesuai dengan layar di pygame
             scaledPoint = Point(scaledPoint.x,scaledPoint.y,i.pointName)
             scaledBezierPointList.append(scaledPoint)
-            pygame.draw.circle(screen,RED,(scaledPoint.x,scaledPoint.y),10) #gambar control point (titik warna biru) (y dibalik karena pygame koordinat y positif arahnya ke bawah)
+            pygame.draw.circle(screen,RED,(scaledPoint.x,scaledPoint.y),3) #gambar control point (titik warna biru) (y dibalik karena pygame koordinat y positif arahnya ke bawah)
             pygame.time.wait(500) #delay 0.5 detik
             pygame.display.flip() #perbarui titik
         pygame.time.wait(2000) #delay 2 detik
