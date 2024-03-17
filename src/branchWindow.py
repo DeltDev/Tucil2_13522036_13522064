@@ -44,7 +44,6 @@ def spawnInfoWindow(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root,BezierMethod):
             if(i.pointName == "TENGAH"): #append semua titik yang diberi nama "TENGAH" setelah proses DnC ke daftar titik ti kurva bezier 
                 BezierPointList.append(i)
         BezierPointList.append(ControlPointList[2]) #P2 adalah titik akhir kurva bezier
-        BezierPointList = sorted(BezierPointList, key=lambda p: p.x) #urutkan array titik kurva bezier berdasarkan nilai xnya (untuk kebutuhan visualisasi)
         
 
     #setup window kedua
