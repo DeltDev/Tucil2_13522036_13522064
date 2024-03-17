@@ -5,24 +5,27 @@ import BezierFormulas as Bezier
 from point import Point
 from visualizer import spawnPygame
 import time
-from helper import getSRCDir
+from helper import getSRCDir,createGeneralLabelPack,createControlPointOutput
 def disable_close_window(): #matikan fungsi tombol close default
     pass
-def spawnInfoWindow(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root,BezierMethod):
+def spawnInfoWindow(X_ARR,Y_ARR,ITERATION,ctrlPointCount,root,BezierMethod):
     
     try: #handling kevalidan input pada entry
-        p0x = float(P0_X.get()) #jangan lupa diganti
-        p0y = float(P0_Y.get())
-        p1x = float(P1_X.get())
-        p1y = float(P1_Y.get())
-        p2x = float(P2_X.get())
-        p2y = float(P2_Y.get())
+        xValues = [0.0 for i in range(ctrlPointCount)]
+        yValues = [0.0 for i in range(ctrlPointCount)]
+        for i in range(ctrlPointCount):
+            xValues[i] = float(X_ARR[i].get())
+        for i in range(ctrlPointCount):
+            yValues[i] = float(Y_ARR[i].get())
         it = int(ITERATION.get())
         method = BezierMethod.get()
     except ValueError: #keluarkan pesan error jika input tidak valid
         msgbox.showerror("Program Error", "Input Anda tidak valid! \n Silahkan ulangi input data Anda.")
         return        
-    ControlPointList =[Point(p0x,p0y,"P0"),Point(p1x,p1y,"P1"),Point(p2x,p2y,"P2")]
+    ControlPointList =[]
+
+    for i in range(ctrlPointCount):
+        ControlPointList.append(Point(xValues[i],yValues[i],"P"+str(i)))
 
     BezierPointList = []
     MidpointList = []
@@ -76,36 +79,15 @@ def spawnInfoWindow(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root,BezierMethod):
     #buka di window
     mainCanvas.create_window((0,0), window=newWindowFrame, anchor="n")
 
-    #label output data titik P0
-    P0LabelOutput = ttk.Label(newWindowFrame,text = "Titik P0")
-    P0LabelOutput.pack(padx=5,pady=5,fill="x",expand=True)
-    P0XLabelOutput = ttk.Label(newWindowFrame,text = "X: " + str(p0x))
-    P0XLabelOutput.pack(padx=5,pady=5,fill="x",expand=True)
-    P0YLabelOutput = ttk.Label(newWindowFrame,text = "Y: " + str(p0y))
-    P0YLabelOutput.pack(padx=5,pady=5,fill="x",expand=True)
-    #Label output data titik P1
-    P1LabelOutput = ttk.Label(newWindowFrame,text = "Titik P1")
-    P1LabelOutput.pack(padx=5,pady=5,fill="x",expand=True)
-    P1XLabelOutput = ttk.Label(newWindowFrame,text = "X: " + str(p1x))
-    P1XLabelOutput.pack(padx=5,pady=5,fill="x",expand=True)
-    P1YLabelOutput = ttk.Label(newWindowFrame,text = "Y: " + str(p1y))
-    P1YLabelOutput.pack(padx=5,pady=5,fill="x",expand=True)
-    #Label output data titik P2
-    P2LabelOutput = ttk.Label(newWindowFrame,text = "Titik P2")
-    P2LabelOutput.pack(padx=5,pady=5,fill="x",expand=True)
-    P2XLabelOutput = ttk.Label(newWindowFrame,text = "X: " + str(p2x))
-    P2XLabelOutput.pack(padx=5,pady=5,fill="x",expand=True)
-    P2YLabelOutput = ttk.Label(newWindowFrame,text = "Y: " + str(p2y))
-    P2YLabelOutput.pack(padx=5,pady=5,fill="x",expand=True)
+    #output semua data control point
+    for i in range(ctrlPointCount):
+        createControlPointOutput(newWindowFrame,"Control Point P"+str(i),xValues[i],yValues[i])
     #Label output data banyak iterasi
-    IterationLabelOutput = ttk.Label(newWindowFrame,text = "Banyak iterasi: " + str(it))
-    IterationLabelOutput.pack(padx=5,pady=5,fill="x",expand=True)
+    createGeneralLabelPack("Banyak iterasi: "+str(it),newWindowFrame)
     #Label metode yang dipilih
-    MethodLabel = ttk.Label(newWindowFrame,text = "Metode: " + method)
-    MethodLabel.pack(padx=5,pady=5,fill="x",expand=True)
+    createGeneralLabelPack("Metode: " + method,newWindowFrame)
     #Waktu eksekusi
-    MethodLabel = ttk.Label(newWindowFrame,text = "Waktu Eksekusi: " + str(deltaTime) + " ms")
-    MethodLabel.pack(padx=5,pady=5,fill="x",expand=True)
+    createGeneralLabelPack("Waktu Eksekusi: " + str(deltaTime) + " ms",newWindowFrame)
     #tombol kembali ke root
     newWindowReturn = ttk.Button(newWindowFrame,text="Visualisasikan!",command=lambda: OpenVisualizer(newWindow,ControlPointList,BezierPointList,MidpointList,method))
     newWindowReturn.pack(padx=5,pady=5,fill="x",expand=True)
@@ -114,5 +96,3 @@ def OpenVisualizer(newWindow,ControlPointList,BezierPointList,MidpointList,Bezie
     newWindow.destroy()
     spawnPygame(ControlPointList,BezierPointList,MidpointList,BezierMethod)
 
-def runBranchThread(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root,BezierMethod):
-    spawnInfoWindow(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root,BezierMethod)

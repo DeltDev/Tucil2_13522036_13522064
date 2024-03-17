@@ -4,10 +4,10 @@ from point import *
 import branchWindow as BW
 from helper import getSRCDir
 from helper import createGeneralLabelPack,createGeneralEntryPack
+from main import SpawnMainWindow
 #setup window tkinter 
 def GoToMain(root,CTRLPOINTNUM):
-    root.destroy()
-    print(CTRLPOINTNUM.get())
+    SpawnMainWindow(root,CTRLPOINTNUM)
 root = tk.Tk()
 root.configure(bg="gray")
 root.geometry("400x510")
