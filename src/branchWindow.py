@@ -32,21 +32,20 @@ def spawnInfoWindow(X_ARR,Y_ARR,ITERATION,ctrlPointCount,root,BezierMethod):
     deltaTime = 0.0
     if(method == "Brute Force"): #metode yang dipilih adalah brute force
         start = time.perf_counter()
-        BezierPointList = Bezier.BruteForceBezier(ControlPointList[0],ControlPointList[1],ControlPointList[2],2**it) #samakan jumlah titik dengan jumlah titik yang didapatkan dengan cara divide and conquer
+        BezierPointList = Bezier.GeneralBruteForceBezier(ControlPointList,2**it) #samakan jumlah titik dengan jumlah titik yang didapatkan dengan cara divide and conquer
         end = time.perf_counter()
 
         deltaTime = (end-start) *1000
         MidpointList = []
     elif(method == "Divide And Conquer"): #metode yang dipilih adalah divide and conquer
         start = time.perf_counter()
-        Bezier.DivideAndConquerBezier(ControlPointList[0],ControlPointList[1],ControlPointList[2],it,MidpointList)
+        Bezier.GeneralDivideAndConquerBezier(ControlPointList,it,MidpointList)
         end = time.perf_counter()
         deltaTime = (end-start) *1000
-        BezierPointList.append(ControlPointList[0]) #P0 adalah titik awal kurva bezier
+
         for i in MidpointList:
-            if(i.pointName == "TENGAH"): #append semua titik yang diberi nama "TENGAH" setelah proses DnC ke daftar titik ti kurva bezier 
+            if(i.pointName == "TENGAH"): #append semua titik yang diberi nama "TENGAH" setelah proses DnC ke daftar titik di kurva bezier 
                 BezierPointList.append(i)
-        BezierPointList.append(ControlPointList[2]) #P2 adalah titik akhir kurva bezier
         
 
     #setup window kedua

@@ -46,12 +46,7 @@ def SpawnMainWindow(initWindow,CTRLPOINTNUM):
     #setup nilai-nilai yang ditangkap oleh gui di window utama
     X_ARR = [tk.StringVar() for i in range(ctrlPointCount)]
     Y_ARR = [tk.StringVar() for i in range(ctrlPointCount)]
-    P0_X = tk.StringVar()
-    P0_Y = tk.StringVar()
-    P1_X = tk.StringVar()
-    P1_Y = tk.StringVar()
-    P2_X = tk.StringVar()
-    P2_Y = tk.StringVar()
+
     ITERATION = tk.StringVar()
 
     for i in range(ctrlPointCount): #buat input control point sebanyak n control point

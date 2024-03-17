@@ -8,6 +8,10 @@ def QuadraticBezier(ControlPoint0 : Point, ControlPoint1: Point, ControlPoint2: 
     Q2 = LinearBezier(ControlPoint1, ControlPoint2, t)
     R = LinearBezier(Q1,Q2,t)
     return R
+# algo brute force (khusus kurva bezier kuadratik)
+def BruteForceQuadraticBezier(ControlPoint0 : Point, ControlPoint1: Point, ControlPoint2: Point, iteration: int) -> list[Point]:
+    # termasuk titik ujungnya
+    return [QuadraticBezier(ControlPoint0, ControlPoint1, ControlPoint2, n/iteration) for n in range (iteration + 1)]
 
 # kalau jadi kerjain bonus satu
 def Combination(n: int, r: int) -> int:
@@ -17,7 +21,7 @@ def Combination(n: int, r: int) -> int:
     return C
 
 # untuk brute force
-def UltimateBezierFormula(ControlPointsList : list[Point], t : float) -> Point: # sesuai dengan panjang list ControlPointsList
+def GeneralBezierFormula(ControlPointsList : list[Point], t : float) -> Point: # sesuai dengan panjang list ControlPointsList
     order = len(ControlPointsList) - 1
     X = Point(0, 0, "NEW")
     for i in range (order + 1):
@@ -25,13 +29,11 @@ def UltimateBezierFormula(ControlPointsList : list[Point], t : float) -> Point: 
         X.y += Combination(order, i) * ((1 - t) ** (order - i)) * (t ** i) * ControlPointsList[i].y
     return X
 
-# algo brute force
-def BruteForceBezier(ControlPoint0 : Point, ControlPoint1: Point, ControlPoint2: Point, iteration: int) -> list[Point]:
-    # termasuk titik ujungnya
-    return [QuadraticBezier(ControlPoint0, ControlPoint1, ControlPoint2, n/iteration) for n in range (iteration + 1)]
+def GeneralBruteForceBezier(ControlPointsList, iteration) -> list[Point]:
+    return [GeneralBezierFormula(ControlPointsList, n/iteration) for n in range(iteration+1)]
 
-# divide and conquer
-def DivideAndConquerBezier(ControlPoint0 : Point, ControlPoint1: Point, ControlPoint2: Point, iteration: int,MidpointArray):
+# divide and conquer (hanya untuk kurva bezier )
+def DivideAndConquerQuadraticBezier(ControlPoint0 : Point, ControlPoint1: Point, ControlPoint2: Point, iteration: int,MidpointArray):
     if(iteration > 0): #selama iterasinya belum mencapai 0
         Midpoint1 = Midpoint(ControlPoint0,ControlPoint1,"KIRI") #cari titik tengah di antara garis di control point 0 dan control point 1
         Midpoint2 = Midpoint(ControlPoint1,ControlPoint2,"KANAN") #cari titik tengah di antara garis di control point 1 dan control point 2
@@ -40,11 +42,11 @@ def DivideAndConquerBezier(ControlPoint0 : Point, ControlPoint1: Point, ControlP
         #yang akan dianggap titik di kurva bezier adalah titik yang diberi nama "TENGAH"
         MidpointArray.append(Midpoint1)
         MidpointArray.append(Midpoint2)
-        DivideAndConquerBezier(ControlPoint0,Midpoint1,ExtraPoint,iteration-1,MidpointArray) #divide permasalahan ke kiri
+        DivideAndConquerQuadraticBezier(ControlPoint0,Midpoint1,ExtraPoint,iteration-1,MidpointArray) #divide permasalahan ke kiri
         MidpointArray.append(ExtraPoint)
-        DivideAndConquerBezier(ExtraPoint,Midpoint2,ControlPoint2,iteration-1,MidpointArray) #divide permasalahan ke kanan
+        DivideAndConquerQuadraticBezier(ExtraPoint,Midpoint2,ControlPoint2,iteration-1,MidpointArray) #divide permasalahan ke kanan
 
-def UltimateBezierBattle(ControlPointsList : list[Point], iteration: int, MidpointArray):
+def GeneralDivideAndConquerBezier(ControlPointsList : list[Point], iteration: int, MidpointArray):
     if(iteration > 0): #selama iterasinya belum mencapai 0
         order = len(ControlPointsList) - 1
         NewLeft = [ControlPointsList[0]]
@@ -80,9 +82,9 @@ def UltimateBezierBattle(ControlPointsList : list[Point], iteration: int, Midpoi
                     else:
                         NewPoint = Midpoint(MidpointArray[len(MidpointArray) - i - 1], MidpointArray[len(MidpointArray) - i], "TENGAH")
                     MidpointArray.append(NewPoint)
-        UltimateBezierBattle(NewLeft,iteration-1,MidpointArray) #divide permasalahan ke kiri
+        GeneralDivideAndConquerBezier(NewLeft,iteration-1,MidpointArray) #divide permasalahan ke kiri
         MidpointArray.append(ExtraPoint)
-        UltimateBezierBattle(NewRight,iteration-1,MidpointArray) #divide permasalahan ke kanan
+        GeneralDivideAndConquerBezier(NewRight,iteration-1,MidpointArray) #divide permasalahan ke kanan
     return
     
 def Midpoint(ControlPoint1, ControlPoint2, MidpointName): #hitung Midpoint dan namanya (nama bertujuan untuk membedakan midpoint di visualisasi nanti)
