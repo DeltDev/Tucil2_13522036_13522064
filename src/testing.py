@@ -1,11 +1,13 @@
-def func(i,arr):
-    if(i >0):
-        arr.append(i)
-        i = i-1
-        func(i,arr)
+import os
 
-arr = []
+# Get the current directory
+current_directory = os.getcwd()
 
-func(69,arr)
+# Navigate to the parent directory
+parent_directory = os.path.dirname(current_directory)
 
-print(arr)
+# Repeat until the "src" directory is found
+while "src" not in os.listdir(parent_directory):
+    parent_directory = os.path.dirname(parent_directory)
+
+print("Parent directory of 'src':", parent_directory)

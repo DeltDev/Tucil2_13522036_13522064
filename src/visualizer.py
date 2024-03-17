@@ -1,11 +1,14 @@
 import pygame
 import sys
-import time
+import os
 from point import Point
-
+from helper import getSRCDir
 def spawnPygame(ControlPointList,BezierPointList,MidpointList,BezierMethod):
     #inisialisasi pygame
     pygame.init()
+    pygame.display.set_caption('Visualizer Kurva Bezier')
+    Icon = pygame.image.load(getSRCDir()+'\BezierCurveIcon.png')
+    pygame.display.set_icon(Icon)
     font = pygame.font.Font(None,20)
     font2 = pygame.font.Font(None,35)
     #Warna

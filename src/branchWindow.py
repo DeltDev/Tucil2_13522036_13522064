@@ -3,9 +3,10 @@ from tkinter import ttk
 from tkinter import messagebox as msgbox
 import BezierFormulas as Bezier
 from point import Point
-from matplotlib import pyplot as plt
 from visualizer import spawnPygame
 import time
+import os
+from helper import getSRCDir
 def disable_close_window(): #matikan fungsi tombol close default
     pass
 def spawnInfoWindow(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root,BezierMethod):
@@ -49,12 +50,33 @@ def spawnInfoWindow(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root,BezierMethod):
     #setup window kedua
     root.withdraw()
     newWindow = tk.Toplevel(root)
-    newWindow.title("Window baru")
+    newWindow.title("Hasil Simulasi Kurva Bezier")
     newWindow.config(bg = "gray")
     newWindow.protocol("WM_DELETE_WINDOW", disable_close_window)
-    #setup frame output
-    newWindowFrame = ttk.Frame(newWindow)
-    newWindowFrame.pack(padx=5,pady=5,fill="x",expand=True)
+    newWindow.geometry("400x300")
+    newWindow.iconbitmap(getSRCDir()+'\BezierCurveIcon.ico')
+    # setup scroll bar
+    mainFrame = ttk.Frame(newWindow)
+    mainFrame.pack(fill="both", expand=1)
+
+    #setup canvas
+    mainCanvas = tk.Canvas(mainFrame)
+    mainCanvas.pack(side="left", fill="both", expand=1)
+
+    #setup scrollbar
+    mainScrollbar = ttk.Scrollbar(mainFrame,orient="vertical",command=mainCanvas.yview)
+    mainScrollbar.pack(side="right",fill="y")
+
+    #config canvas
+    mainCanvas.configure(yscrollcommand=mainScrollbar.set)
+    mainCanvas.bind('<Configure>',lambda e: mainCanvas.configure(scrollregion= mainCanvas.bbox("all")))
+
+    #frame kedua
+    newWindowFrame = ttk.Frame(mainCanvas)
+
+    #buka di window
+    mainCanvas.create_window((0,0), window=newWindowFrame, anchor="n")
+
     #label output data titik P0
     P0LabelOutput = ttk.Label(newWindowFrame,text = "Titik P0")
     P0LabelOutput.pack(padx=5,pady=5,fill="x",expand=True)
