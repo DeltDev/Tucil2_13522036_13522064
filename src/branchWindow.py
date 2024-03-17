@@ -22,16 +22,23 @@ def spawnInfoWindow(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root,BezierMethod):
     except ValueError: #keluarkan pesan error jika input tidak valid
         msgbox.showerror("Program Error", "Input Anda tidak valid! \n Silahkan ulangi input data Anda.")
         return        
-    #daftar control point (tanpa bonus 1)
     ControlPointList =[Point(p0x,p0y,"P0"),Point(p1x,p1y,"P1"),Point(p2x,p2y,"P2")]
 
     BezierPointList = []
     MidpointList = []
+    deltaTime = 0.0
     if(method == "Brute Force"): #metode yang dipilih adalah brute force
-        BezierPointList = Bezier.BruteForceBezier(ControlPointList[0],ControlPointList[1],ControlPointList[2],it)
+        start = time.perf_counter()
+        BezierPointList = Bezier.BruteForceBezier(ControlPointList[0],ControlPointList[1],ControlPointList[2],2**it) #samakan jumlah titik dengan jumlah titik yang didapatkan dengan cara divide and conquer
+        end = time.perf_counter()
+
+        deltaTime = (end-start) *1000
         MidpointList = []
     elif(method == "Divide And Conquer"): #metode yang dipilih adalah divide and conquer
+        start = time.perf_counter()
         Bezier.DivideAndConquerBezier(ControlPointList[0],ControlPointList[1],ControlPointList[2],it,MidpointList)
+        end = time.perf_counter()
+        deltaTime = (end-start) *1000
         BezierPointList.append(ControlPointList[0]) #P0 adalah titik awal kurva bezier
         for i in MidpointList:
             if(i.pointName == "TENGAH"): #append semua titik yang diberi nama "TENGAH" setelah proses DnC ke daftar titik ti kurva bezier 
@@ -75,6 +82,9 @@ def spawnInfoWindow(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root,BezierMethod):
     IterationLabelOutput.pack(padx=5,pady=5,fill="x",expand=True)
     #Label metode yang dipilih
     MethodLabel = ttk.Label(newWindowFrame,text = "Metode: " + method)
+    MethodLabel.pack(padx=5,pady=5,fill="x",expand=True)
+    #Waktu eksekusi
+    MethodLabel = ttk.Label(newWindowFrame,text = "Waktu Eksekusi: " + str(deltaTime) + " ms")
     MethodLabel.pack(padx=5,pady=5,fill="x",expand=True)
     #tombol kembali ke root
     newWindowReturn = ttk.Button(newWindowFrame,text="Visualisasikan!",command=lambda: OpenVisualizer(newWindow,ControlPointList,BezierPointList,MidpointList,method))

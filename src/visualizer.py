@@ -176,11 +176,11 @@ def spawnPygame(ControlPointList,BezierPointList,MidpointList,BezierMethod):
             for i in range(0,len(scaledBezierPointList)-1):
                 drawLineAtoB(scaledBezierPointList[i],scaledBezierPointList[i+1],screen,RED,500)
 
-        pygame.time.wait(2000) #delay 2 detik
+        pygame.time.wait(10000) #delay 10 detik untuk memberikan kesempatan kepada pengguna untuk menekan tombol exit
         pygame.display.flip() #perbarui display
         pygame.time.Clock().tick(60) #FPS = 60
 
-def getMaximumCoordinates(ControlPointList):
+def getMaximumCoordinates(ControlPointList): #fungsi untuk mendapatkan nilai x dan y maksimum
     retX = -9999999999999999999999999999999
     retY = -9999999999999999999999999999999
 
@@ -192,7 +192,7 @@ def getMaximumCoordinates(ControlPointList):
 
     return retX,retY
 
-def scaleToScreen(P : Point, screenWidth, screenHeight, xMax, yMax) -> Point:
+def scaleToScreen(P : Point, screenWidth, screenHeight, xMax, yMax) -> Point: #fungsi untuk rescale titik ke layar pygame
     xMin = -xMax
     yMin = -yMax
 
@@ -202,7 +202,7 @@ def scaleToScreen(P : Point, screenWidth, screenHeight, xMax, yMax) -> Point:
     scaledPoint = Point(scaledX,screenHeight-scaledY,P.pointName) #balik nilai y karena di pygame koordinatnya terbalik
     return scaledPoint
 
-def drawLineAtoB(A:Point, B:Point, screen, color,duration):
+def drawLineAtoB(A:Point, B:Point, screen, color,duration): #prosedur untuk menggambar garis dari titik A ke titik B dengan durasi dan warna yang ditentukan
     pygame.draw.line(screen,color,(A.x,A.y),(B.x,B.y),3)
     pygame.time.wait(duration)
     pygame.display.flip()
