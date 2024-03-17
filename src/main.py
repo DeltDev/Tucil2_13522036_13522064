@@ -3,8 +3,8 @@ import tkinter as tk
 from tkinter import ttk
 from point import *
 import branchWindow as BW
-import os
 from helper import getSRCDir
+
 #Setup window root GUI 
 root = tk.Tk()
 root.configure(bg="gray")
@@ -44,7 +44,7 @@ P1_Y = tk.StringVar()
 P2_X = tk.StringVar()
 P2_Y = tk.StringVar()
 ITERATION = tk.StringVar()
-WindowSpawnSucceed = True
+
 #input data titik P0
 P0Label = ttk.Label(frame2,text="Titik Kontrol P0")
 P0Label.pack(padx=5,pady=5,fill="x",expand=True)

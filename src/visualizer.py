@@ -1,6 +1,5 @@
 import pygame
 import sys
-import os
 from point import Point
 from helper import getSRCDir
 def spawnPygame(ControlPointList,BezierPointList,MidpointList,BezierMethod):

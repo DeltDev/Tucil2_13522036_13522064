@@ -5,7 +5,6 @@ import BezierFormulas as Bezier
 from point import Point
 from visualizer import spawnPygame
 import time
-import os
 from helper import getSRCDir
 def disable_close_window(): #matikan fungsi tombol close default
     pass
