@@ -47,10 +47,10 @@ def BruteForceBezier(ControlPoint0 : Point, ControlPoint1: Point, ControlPoint2:
 
 # bare minimum version
 def DivideAndConquerBezier(ControlPoint0 : Point, ControlPoint1: Point, ControlPoint2: Point, iteration: int,MidpointArray):
-    if(iteration > 0):
+    if(iteration > 0): #selama iterasinya belum mencapai 0
         Midpoint1 = Midpoint(ControlPoint0,ControlPoint1,"KIRI") #cari titik tengah di antara garis di control point 0 dan control point 1
         Midpoint2 = Midpoint(ControlPoint1,ControlPoint2,"KANAN") #cari titik tengah di antara garis di control point 1 dan control point 2
-        ExtraPoint = Midpoint(Midpoint1,Midpoint2,"TENGAH") #cari titik tengah di antara garis di midpoint 1 dan midpoint 2
+        ExtraPoint = Midpoint(Midpoint1,Midpoint2,"TENGAH") #cari titik tengah di antara garis di midpoint 1 dan midpoint 2 (titik di kurva bezier)
         #urutannya akan selalu "KIRI","KANAN","TENGAH". yang akan membentuk garis di visualisasi hanyalah titik yang diberi nama "KIRI"
         #yang akan dianggap titik di kurva bezier adalah titik yang diberi nama "TENGAH"
         MidpointArray.append(Midpoint1)

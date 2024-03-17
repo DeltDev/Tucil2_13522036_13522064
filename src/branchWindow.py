@@ -5,7 +5,6 @@ import BezierFormulas as Bezier
 from point import Point
 from matplotlib import pyplot as plt
 from visualizer import spawnPygame
-import pygame
 import time
 def disable_close_window(): #matikan fungsi tombol close default
     pass
@@ -33,8 +32,13 @@ def spawnInfoWindow(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root,BezierMethod):
         MidpointList = []
     elif(method == "Divide And Conquer"): #metode yang dipilih adalah divide and conquer
         Bezier.DivideAndConquerBezier(ControlPointList[0],ControlPointList[1],ControlPointList[2],it,MidpointList)
+        BezierPointList.append(ControlPointList[0]) #P0 adalah titik awal kurva bezier
         for i in MidpointList:
-            i.printPoint()
+            if(i.pointName == "TENGAH"): #append semua titik yang diberi nama "TENGAH" setelah proses DnC ke daftar titik ti kurva bezier 
+                BezierPointList.append(i)
+        BezierPointList.append(ControlPointList[2]) #P2 adalah titik akhir kurva bezier
+        BezierPointList = sorted(BezierPointList, key=lambda p: p.x) #urutkan array titik kurva bezier berdasarkan nilai xnya (untuk kebutuhan visualisasi)
+        
 
     #setup window kedua
     root.withdraw()
