@@ -6,4 +6,4 @@ class Point:
         self.y = y
         self.pointName = pointName
     def printPoint(self):
-        print(self.x, " ", self.y)
+        print(self.x, " ", self.y," ",self.pointName)

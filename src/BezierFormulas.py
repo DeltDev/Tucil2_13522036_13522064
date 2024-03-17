@@ -46,14 +46,19 @@ def BruteForceBezier(ControlPoint0 : Point, ControlPoint1: Point, ControlPoint2:
         return E"""
 
 # bare minimum version
-def DivideAndConquerBezier(ControlPoint0 : Point, ControlPoint1: Point, ControlPoint2: Point, iteration: int) -> list[Point]:
-    Midpoint1 = Point((ControlPoint0.x + ControlPoint1.x) / 2, (ControlPoint0.y + ControlPoint1.y) / 2)
-    Midpoint2 = Point((ControlPoint1.x + ControlPoint2.x) / 2, (ControlPoint1.y + ControlPoint2.y) / 2)
-    ExtraPoint = Point((Midpoint1.x + Midpoint2.x) / 2, (Midpoint1.y + Midpoint2.y) / 2)
-    if (iteration == 1):
-        return [ControlPoint0, ExtraPoint, ControlPoint2]
-    else:
-        Left = DivideAndConquerBezier(ControlPoint0, Midpoint1, ExtraPoint, iteration - 1)
-        Right = DivideAndConquerBezier(ExtraPoint, Midpoint2, ControlPoint2, iteration - 1)
-        Left.pop()
-        return (Left + Right)
+def DivideAndConquerBezier(ControlPoint0 : Point, ControlPoint1: Point, ControlPoint2: Point, iteration: int,MidpointArray):
+    if(iteration > 0):
+        Midpoint1 = Midpoint(ControlPoint0,ControlPoint1,"KIRI") #cari titik tengah di antara garis di control point 0 dan control point 1
+        Midpoint2 = Midpoint(ControlPoint1,ControlPoint2,"KANAN") #cari titik tengah di antara garis di control point 1 dan control point 2
+        ExtraPoint = Midpoint(Midpoint1,Midpoint2,"TENGAH") #cari titik tengah di antara garis di midpoint 1 dan midpoint 2
+        #urutannya akan selalu "KIRI","KANAN","TENGAH". yang akan membentuk garis di visualisasi hanyalah titik yang diberi nama "KIRI"
+        #yang akan dianggap titik di kurva bezier adalah titik yang diberi nama "TENGAH"
+        MidpointArray.append(Midpoint1)
+        MidpointArray.append(Midpoint2)
+        MidpointArray.append(ExtraPoint)
+        DivideAndConquerBezier(ControlPoint0,Midpoint1,ExtraPoint,iteration-1,MidpointArray) #divide permasalahan ke kiri
+        DivideAndConquerBezier(ExtraPoint,Midpoint2,ControlPoint2,iteration-1,MidpointArray) #divide permasalahan ke kanan
+    
+def Midpoint(ControlPoint1, ControlPoint2, MidpointName): #hitung Midpoint dan namanya (nama bertujuan untuk membedakan midpoint di visualisasi nanti)
+    newMidpoint = Point((ControlPoint1.x + ControlPoint2.x) / 2, (ControlPoint1.y + ControlPoint2.y) / 2, MidpointName)
+    return newMidpoint

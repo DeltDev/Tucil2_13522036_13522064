@@ -3,7 +3,7 @@ import sys
 import time
 from point import Point
 
-def spawnPygame(ControlPointList,BezierPointList):
+def spawnPygame(ControlPointList,BezierPointList,MidpointList,BezierMethod):
     #inisialisasi pygame
     pygame.init()
     font = pygame.font.Font(None,20)
@@ -16,9 +16,9 @@ def spawnPygame(ControlPointList,BezierPointList):
     WHITE = (255,255,255)
 
     #setup ukuran layar
-    screenWidth = 1920
-    screenHeight = 1080
-    screen = pygame.display.set_mode((screenWidth,screenHeight))
+    screenWidth = 1280
+    screenHeight = 720
+    screen = pygame.display.set_mode((screenWidth,screenHeight), pygame.RESIZABLE)
 
     #buat origin baru karena titik origin pertama di pygame di pojok kiri atas
     newOrigin = Point(screenWidth//2,screenHeight//2,"Origin")
@@ -128,21 +128,38 @@ def spawnPygame(ControlPointList,BezierPointList):
         pygame.time.wait(2000) #delay 2 detik
         pygame.display.flip() #perbarui display
 
-        #gambar titik bezier (brute force)
+        
         scaledBezierPointList = []
+        scaledMidpointList = []
 
-        for i in BezierPointList:
-            scaledPoint = scaleToScreen(i,screenWidth,screenHeight,xMax,yMax) #rescale agar sesuai dengan layar di pygame
-            scaledPoint = Point(scaledPoint.x,scaledPoint.y,i.pointName)
-            scaledBezierPointList.append(scaledPoint)
-            pygame.draw.circle(screen,RED,(scaledPoint.x,scaledPoint.y),3) #gambar control point (titik warna biru) (y dibalik karena pygame koordinat y positif arahnya ke bawah)
-            pygame.time.wait(500) #delay 0.5 detik
-            pygame.display.flip() #perbarui titik
-        pygame.time.wait(2000) #delay 2 detik
-        pygame.display.flip() #perbarui display
-        #gambar kurva bezier (brute force)
-        for i in range(0,len(scaledBezierPointList)-1):
-            drawLineAtoB(scaledBezierPointList[i],scaledBezierPointList[i+1],screen,RED,500)
+        if(BezierMethod == "Brute Force"):#gambar titik bezier (brute force)
+            # print("Memvisualisasikan Kurva Bezier dengan Brute Force")
+            for i in BezierPointList:
+                scaledPoint = scaleToScreen(i,screenWidth,screenHeight,xMax,yMax) #rescale agar sesuai dengan layar di pygame
+                scaledPoint = Point(scaledPoint.x,scaledPoint.y,i.pointName)
+                scaledBezierPointList.append(scaledPoint)
+                pygame.draw.circle(screen,RED,(scaledPoint.x,scaledPoint.y),3) #gambar titik di kurva bezier (merah)
+                pygame.time.wait(500) #delay 0.5 detik
+                pygame.display.flip() #perbarui titik
+            pygame.time.wait(2000) #delay 2 detik
+            pygame.display.flip() #perbarui display
+            #gambar kurva bezier (brute force)
+            for i in range(0,len(scaledBezierPointList)-1):
+                drawLineAtoB(scaledBezierPointList[i],scaledBezierPointList[i+1],screen,RED,500)
+        elif(BezierMethod == "Divide And Conquer"): #gambar midpoint dan kurva bezier (divide and conquer)
+            for i in MidpointList:
+                scaledPoint = scaleToScreen(i,screenWidth,screenHeight,xMax,yMax) #rescale agar sesuai dengan layar di pygame
+                scaledPoint = Point(scaledPoint.x,scaledPoint.y,i.pointName)
+                scaledMidpointList.append(scaledPoint)
+                pygame.draw.circle(screen,GREEN,(scaledPoint.x,scaledPoint.y),3) #gambar midpoint (hijau)
+                pygame.time.wait(500) #delay 0.5 detik
+                pygame.display.flip() #perbarui titik
+            pygame.time.wait(2000) #delay 2 detik
+            pygame.display.flip() #perbarui display
+            #gambar kurva bezier (brute force)
+            for i in range(0,len(scaledMidpointList)-1):
+                drawLineAtoB(scaledMidpointList[i],scaledMidpointList[i+1],screen,GREEN,500)
+
         pygame.time.wait(2000) #delay 2 detik
         pygame.display.flip() #perbarui display
         pygame.time.Clock().tick(60) #FPS = 60

@@ -26,11 +26,16 @@ def spawnInfoWindow(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root,BezierMethod):
     #daftar control point (tanpa bonus 1)
     ControlPointList =[Point(p0x,p0y,"P0"),Point(p1x,p1y,"P1"),Point(p2x,p2y,"P2")]
 
-    
+    BezierPointList = []
+    MidpointList = []
     if(method == "Brute Force"): #metode yang dipilih adalah brute force
-        BruteForceBezierPointList = Bezier.BruteForceBezier(ControlPointList[0],ControlPointList[1],ControlPointList[2],it)
+        BezierPointList = Bezier.BruteForceBezier(ControlPointList[0],ControlPointList[1],ControlPointList[2],it)
+        MidpointList = []
     elif(method == "Divide And Conquer"): #metode yang dipilih adalah divide and conquer
-        print("Method yang dipilih adalah Divide And Conquer")
+        Bezier.DivideAndConquerBezier(ControlPointList[0],ControlPointList[1],ControlPointList[2],it,MidpointList)
+        for i in MidpointList:
+            i.printPoint()
+
     #setup window kedua
     root.withdraw()
     newWindow = tk.Toplevel(root)
@@ -68,12 +73,12 @@ def spawnInfoWindow(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root,BezierMethod):
     MethodLabel = ttk.Label(newWindowFrame,text = "Metode: " + method)
     MethodLabel.pack(padx=5,pady=5,fill="x",expand=True)
     #tombol kembali ke root
-    newWindowReturn = ttk.Button(newWindowFrame,text="Visualisasikan!",command=lambda: OpenVisualizer(newWindow,ControlPointList,BruteForceBezierPointList))
+    newWindowReturn = ttk.Button(newWindowFrame,text="Visualisasikan!",command=lambda: OpenVisualizer(newWindow,ControlPointList,BezierPointList,MidpointList,method))
     newWindowReturn.pack(padx=5,pady=5,fill="x",expand=True)
 
-def OpenVisualizer(newWindow,ControlPointList,BezierPointList):
+def OpenVisualizer(newWindow,ControlPointList,BezierPointList,MidpointList,BezierMethod):
     newWindow.destroy()
-    spawnPygame(ControlPointList,BezierPointList)
+    spawnPygame(ControlPointList,BezierPointList,MidpointList,BezierMethod)
 
 def runBranchThread(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root,BezierMethod):
     spawnInfoWindow(P0_X,P0_Y,P1_X,P1_Y,P2_X,P2_Y,ITERATION,root,BezierMethod)
