@@ -1,9 +1,10 @@
 # ⚠️ WARNING ⚠️
 ## PERINGATAN: HARAP BACA BAGIAN INI TERLEBIH DAHULU SEBELUM MENGGUNAKAN PROGRAM INI!
 
-<font color="red" size = "5">JANGAN LAKUKAN SALAH SATUPUN DARI YANG DIBAWAH INI AGAR PROGRAM INI TIDAK MENGALAMI NOT RESPONDING! </font><br>
-<font color="red" size = "4">1. Membuka window lain saat window visualisasi sedang berjalan</font><br>
-<font color="red" size = "4">2. Menutup/Meminimize window visualisasi saat visualisasi sedang berlangsung</font><br>
+### JANGAN LAKUKAN SALAH SATUPUN DARI YANG DIBAWAH INI AGAR PROGRAM INI TIDAK MENGALAMI NOT RESPONDING!
+**1. Membuka window lain saat window visualisasi sedang berjalan** <br>
+** Menutup/Meminimize window visualisasi saat visualisasi sedang berlangsung** <br>
+<br>
 <font color="green" size = "4"> Disarankan untuk menekan tombol close <b>SETELAH PROSES VISUALISASI KURVA BEZIER SELESAI. </b>Akan ada jeda waktu selama 10 detik setelah visualisasi kurva bezier selesai bagi pengguna untuk menekan tombol close. Jika tombol close tidak ditekan selama jeda waktu tersebut, <b>proses visualisasi akan diulang dari awal kembali.</b>  </font><br>
 <font color="green" size = "4">Jika Anda tidak melakukan kedua hal di atas, proses visualisasi tetap akan berfungsi sebagaimana mestinya.</font><br>
 # Deskripsi Singkat
