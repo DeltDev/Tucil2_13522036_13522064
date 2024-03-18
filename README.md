@@ -13,9 +13,9 @@ Program ini adalah sebuah program yang bertujuan untuk melakukan simulasi kurva 
 
 # Requirements
 1. ```Python 3.10.6```
-2. ```tkinter 0.1.0```
-3. ```pygame 2.5.2```
-4. ```pyinstaller 6.5.0```
+2. ```tkinter 0.1.0``` (untuk GUI I/O)
+3. ```pygame 2.5.2``` (untuk visualizer)
+4. ```pyinstaller 6.5.0``` (untuk build program standalone)
 
 # Cara Mengompilasi Program
 1. Buka Terminal/Powershell/Command Prompt di folder src repository ini.
