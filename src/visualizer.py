@@ -109,35 +109,35 @@ def spawnPygame(ControlPointList,BezierPointList,MidpointList,BezierMethod):
         yMax += (yMax/10)
 
         scaledControlPointList = []
-        drawPoints(ControlPointList,scaledControlPointList,screenWidth,screenHeight,xMax,yMax,BLUE,10,1000,screen,True,PUREBLACK,font) #gambar semua control point di pygame (sudah discale ke window pygame)
+        drawPoints(ControlPointList,scaledControlPointList,screenWidth,screenHeight,xMax,yMax,BLUE,10,500,screen,True,PUREBLACK,font) #gambar semua control point di pygame (sudah discale ke window pygame)
         pygame.time.wait(2000) #delay 2 detik
         pygame.display.flip() #perbarui display
         #Hubungkan semua control point
-        ConnectPoints(scaledControlPointList,screen,BLUE,1000)
+        ConnectPoints(scaledControlPointList,screen,BLUE,500)
         pygame.time.wait(2000) #delay 2 detik
         pygame.display.flip() #perbarui display
         scaledBezierPointList = []
         scaledMidpointList = []
         if(BezierMethod == "Brute Force"):#gambar titik bezier (brute force)
-            drawPoints(BezierPointList,scaledBezierPointList,screenWidth,screenHeight,xMax,yMax,RED,3,250,screen,False,PUREBLACK,font)
+            drawPoints(BezierPointList,scaledBezierPointList,screenWidth,screenHeight,xMax,yMax,RED,3,125,screen,False,PUREBLACK,font)
             pygame.time.wait(2000) #delay 2 detik
             pygame.display.flip() #perbarui display
             #gambar kurva bezier (brute force)
-            ConnectPoints(scaledBezierPointList,screen,RED,250) #gambar kurva bezier
+            ConnectPoints(scaledBezierPointList,screen,RED,125) #gambar kurva bezier
         elif(BezierMethod == "Divide And Conquer"): #gambar midpoint dan kurva bezier (divide and conquer)
             #gambar semua mid point
-            drawPoints(MidpointList,scaledMidpointList,screenWidth,screenHeight,xMax,yMax,GREEN,3,250,screen,False,PUREBLACK,font)
+            drawPoints(MidpointList,scaledMidpointList,screenWidth,screenHeight,xMax,yMax,GREEN,3,125,screen,False,PUREBLACK,font)
             pygame.time.wait(2000) #delay 2 detik
             pygame.display.flip() #perbarui display
             #gambar garis di antara midpoint
             for i in range(0,len(scaledMidpointList)):
                 if(scaledMidpointList[i].pointName == "KIRI" or scaledMidpointList[i].pointName == "TENGAH"): #hanya gambar garis yang diberi nama "KIRI" atau "TENGAH"
-                    drawLineAtoB(scaledMidpointList[i],scaledMidpointList[i+1],screen,GREEN,250)
-            drawPoints(BezierPointList,scaledBezierPointList,screenWidth,screenHeight,xMax,yMax,RED,3,250,screen,False,PUREBLACK,font)
+                    drawLineAtoB(scaledMidpointList[i],scaledMidpointList[i+1],screen,GREEN,125)
+            drawPoints(BezierPointList,scaledBezierPointList,screenWidth,screenHeight,xMax,yMax,RED,3,125,screen,False,PUREBLACK,font)
             pygame.time.wait(2000) #delay 2 detik
             pygame.display.flip() #perbarui display
             #gambar kurva bezier
-            ConnectPoints(scaledBezierPointList,screen,RED,250) 
+            ConnectPoints(scaledBezierPointList,screen,RED,125) 
 
         pygame.time.wait(10000) #delay 10 detik untuk memberikan kesempatan kepada pengguna untuk menekan tombol exit
         pygame.display.flip() #perbarui display

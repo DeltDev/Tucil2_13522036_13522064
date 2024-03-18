@@ -6,9 +6,6 @@ from point import Point
 from visualizer import spawnPygame
 import time
 from helper import getSRCDir,createGeneralLabelPack,createControlPointOutput
-def disable_close_window(): #matikan fungsi tombol close default
-    pass
-
 def checkArrayValidity(Values,ARR,n): #cek kevalidan array
     for i in range(n):
         Values[i] = float(ARR[i].get())
@@ -55,7 +52,6 @@ def spawnInfoWindow(X_ARR,Y_ARR,ITERATION,ctrlPointCount,root,BezierMethod):
     newWindow = tk.Toplevel(root)
     newWindow.title("Hasil Simulasi Kurva Bezier")
     newWindow.config(bg = "gray")
-    newWindow.protocol("WM_DELETE_WINDOW", disable_close_window)
     newWindow.geometry("400x300")
     newWindow.iconbitmap(getSRCDir()+'\BezierCurveIcon.ico')
     # setup scroll bar
