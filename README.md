@@ -29,7 +29,7 @@ Program ini adalah sebuah program yang bertujuan untuk melakukan simulasi kurva 
 3. Ketik ```pyinstaller --onefile --noconsole -i "Directory ke file BezierCurveIcon.ico dengan tanda petik (BezierCurveIcon.ico terletak di dalam folder src di repository ini)" app_init.py --name "Bezier Curve Simulation" --distpath "Directory ke folder bin di repository ini"``` di Terminal/Powershell/Command Prompt.
 4. Tunggu sampai proses building selesai dan akan ada file executable yang tersimpan di dalam folder bin dengan nama ```Bezier Curve Simulation.exe```
 # Cara Menggunakan Program
-1. Anda dapat membuka ```Bezier Curve Simulation.exe``` di dalam folder bin di repository ini, melakukan prosedur di [Cara Mengompilasi Program], atau melakukan prosedur di [Cara Membuild Program].
+1. Anda dapat membuka ```Bezier Curve Simulation.exe``` di dalam folder bin di repository ini, melakukan prosedur di [Cara Mengompilasi Program](#cara-mengompilasi-program), atau melakukan prosedur di [Cara Membuild Program](#cara-membuild-program).
 2. Ikuti video tata cara penggunaan program ini.
 
 # Keterangan Warna Di Visualizer
