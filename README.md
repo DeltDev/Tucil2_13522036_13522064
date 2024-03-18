@@ -1,5 +1,5 @@
 # ⚠️ WARNING ⚠️
-<font color="red" size= "20"><strong>PERINGATAN: HARAP BACA BAGIAN INI TERLEBIH DAHULU SEBELUM MENGGUNAKAN PROGRAM INI!</strong></font> <br>
+## PERINGATAN: HARAP BACA BAGIAN INI TERLEBIH DAHULU SEBELUM MENGGUNAKAN PROGRAM INI!
 
 <font color="red" size = "5">JANGAN LAKUKAN SALAH SATUPUN DARI YANG DIBAWAH INI AGAR PROGRAM INI TIDAK MENGALAMI NOT RESPONDING! </font><br>
 <font color="red" size = "4">1. Membuka window lain saat window visualisasi sedang berjalan</font><br>
