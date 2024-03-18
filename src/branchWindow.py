@@ -8,45 +8,47 @@ import time
 from helper import getSRCDir,createGeneralLabelPack,createControlPointOutput
 def disable_close_window(): #matikan fungsi tombol close default
     pass
+
+def checkArrayValidity(Values,ARR,n): #cek kevalidan array
+    for i in range(n):
+        Values[i] = float(ARR[i].get())
+
 def spawnInfoWindow(X_ARR,Y_ARR,ITERATION,ctrlPointCount,root,BezierMethod):
     
     try: #handling kevalidan input pada entry
         xValues = [0.0 for i in range(ctrlPointCount)]
         yValues = [0.0 for i in range(ctrlPointCount)]
-        for i in range(ctrlPointCount):
-            xValues[i] = float(X_ARR[i].get())
-        for i in range(ctrlPointCount):
-            yValues[i] = float(Y_ARR[i].get())
+        checkArrayValidity(xValues,X_ARR,ctrlPointCount)
+        checkArrayValidity(yValues,Y_ARR,ctrlPointCount)
         it = int(ITERATION.get())
         method = BezierMethod.get()
     except ValueError: #keluarkan pesan error jika input tidak valid
         msgbox.showerror("Program Error", "Input Anda tidak valid! \n Silahkan ulangi input data Anda.")
-        return        
+        return   
+         
     ControlPointList =[]
-
-    for i in range(ctrlPointCount):
-        ControlPointList.append(Point(xValues[i],yValues[i],"P"+str(i)))
-
     BezierPointList = []
     MidpointList = []
     deltaTime = 0.0
+
+    for i in range(ctrlPointCount): #masukkan semua control point yang didapat dari input GUI
+        ControlPointList.append(Point(xValues[i],yValues[i],"P"+str(i)))
+
     if(method == "Brute Force"): #metode yang dipilih adalah brute force
-        start = time.perf_counter()
+        start = time.perf_counter() 
         BezierPointList = Bezier.GeneralBruteForceBezier(ControlPointList,2**it) #samakan jumlah titik dengan jumlah titik yang didapatkan dengan cara divide and conquer
         end = time.perf_counter()
-
-        deltaTime = (end-start) *1000
-        MidpointList = []
+        deltaTime = (end-start) *1000 #hitung waktu eksekusi
     elif(method == "Divide And Conquer"): #metode yang dipilih adalah divide and conquer
         start = time.perf_counter()
-        Bezier.GeneralDivideAndConquerBezier(ControlPointList,it,MidpointList)
+        Bezier.GeneralDivideAndConquerBezier(ControlPointList,it,MidpointList) #lakukan divide and conquer
         end = time.perf_counter()
-        deltaTime = (end-start) *1000
-        BezierPointList.append(ControlPointList[0])
+        deltaTime = (end-start) *1000 #hitung waktu eksekusi
+        BezierPointList.append(ControlPointList[0]) #P0 adalah titik awal kurva bezier
         for i in MidpointList:
-            if(i.pointName == "NEW"): #append semua titik yang diberi nama "TENGAH" setelah proses DnC ke daftar titik di kurva bezier 
+            if(i.pointName == "NEW"): #append semua titik yang diberi nama "NEW" setelah proses DnC ke daftar titik di kurva bezier 
                 BezierPointList.append(i)
-        BezierPointList.append(ControlPointList[ctrlPointCount-1])
+        BezierPointList.append(ControlPointList[ctrlPointCount-1]) #P(n-1) adalah titik akhir dari kurva bezier
 
     #setup window kedua
     root.withdraw()
@@ -81,17 +83,16 @@ def spawnInfoWindow(X_ARR,Y_ARR,ITERATION,ctrlPointCount,root,BezierMethod):
     #output semua data control point
     for i in range(ctrlPointCount):
         createControlPointOutput(newWindowFrame,"Control Point P"+str(i),xValues[i],yValues[i])
-    #Label output data banyak iterasi
+    #buat label output data banyak iterasi
     createGeneralLabelPack("Banyak iterasi: "+str(it),newWindowFrame)
-    #Label metode yang dipilih
+    #buat label metode yang dipilih
     createGeneralLabelPack("Metode: " + method,newWindowFrame)
     #Waktu eksekusi
     createGeneralLabelPack("Waktu Eksekusi: " + str(deltaTime) + " ms",newWindowFrame)
-    #tombol kembali ke root
-    newWindowReturn = ttk.Button(newWindowFrame,text="Visualisasikan!",command=lambda: OpenVisualizer(newWindow,ControlPointList,BezierPointList,MidpointList,method))
-    newWindowReturn.pack(padx=5,pady=5,fill="x",expand=True)
+    #tombol ke visualisasi kurva bezier
+    VisualizeButton = ttk.Button(newWindowFrame,text="Visualisasikan!",command=lambda: OpenVisualizer(newWindow,ControlPointList,BezierPointList,MidpointList,method))
+    VisualizeButton.pack(padx=5,pady=5,fill="x",expand=True)
 
-def OpenVisualizer(newWindow,ControlPointList,BezierPointList,MidpointList,BezierMethod):
+def OpenVisualizer(newWindow,ControlPointList,BezierPointList,MidpointList,BezierMethod): #buka visualizer
     newWindow.destroy()
     spawnPygame(ControlPointList,BezierPointList,MidpointList,BezierMethod)
-
