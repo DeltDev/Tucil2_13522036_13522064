@@ -466,6 +466,7 @@
   ('lzma',
    'C:\\Users\\Lenovo\\AppData\\Local\\Programs\\Python\\Python310\\lib\\lzma.py',
    'PYMODULE'),
+  ('main', 'D:\\Tucil2_13522036_13522064\\src\\main.py', 'PYMODULE'),
   ('markupsafe',
    'C:\\Users\\Lenovo\\AppData\\Local\\Programs\\Python\\Python310\\lib\\site-packages\\markupsafe\\__init__.py',
    'PYMODULE'),

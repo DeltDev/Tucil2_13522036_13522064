@@ -42,11 +42,11 @@ def spawnInfoWindow(X_ARR,Y_ARR,ITERATION,ctrlPointCount,root,BezierMethod):
         Bezier.GeneralDivideAndConquerBezier(ControlPointList,it,MidpointList)
         end = time.perf_counter()
         deltaTime = (end-start) *1000
-
+        BezierPointList.append(ControlPointList[0])
         for i in MidpointList:
-            if(i.pointName == "TENGAH"): #append semua titik yang diberi nama "TENGAH" setelah proses DnC ke daftar titik di kurva bezier 
+            if(i.pointName == "NEW"): #append semua titik yang diberi nama "TENGAH" setelah proses DnC ke daftar titik di kurva bezier 
                 BezierPointList.append(i)
-        
+        BezierPointList.append(ControlPointList[ctrlPointCount-1])
 
     #setup window kedua
     root.withdraw()

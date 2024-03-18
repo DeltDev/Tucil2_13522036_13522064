@@ -162,7 +162,7 @@ def spawnPygame(ControlPointList,BezierPointList,MidpointList,BezierMethod):
             pygame.display.flip() #perbarui display
             #gambar garis di antara midpoint
             for i in range(0,len(scaledMidpointList)):
-                if(scaledMidpointList[i].pointName == "KIRI"): #hanya gambar garis yang diberi nama "KIRI"
+                if(scaledMidpointList[i].pointName == "KIRI" or scaledMidpointList[i].pointName == "TENGAH"): #hanya gambar garis yang diberi nama "KIRI"
                     drawLineAtoB(scaledMidpointList[i],scaledMidpointList[i+1],screen,GREEN,500)
 
             for i in BezierPointList:
