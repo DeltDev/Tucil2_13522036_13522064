@@ -22,17 +22,18 @@ def Combination(n: int, r: int) -> int:
 
 # untuk brute force
 def GeneralBezierFormula(ControlPointsList : list[Point], t : float) -> Point: # sesuai dengan panjang list ControlPointsList
-    order = len(ControlPointsList) - 1
+    order = len(ControlPointsList) - 1 #derajat kurva bezier
     X = Point(0, 0, "NEW")
     for i in range (order + 1):
-        X.x += Combination(order, i) * ((1 - t) ** (order - i)) * (t ** i) * ControlPointsList[i].x
+        #hitung nilai polinomial Bernstein untuk x dan y
+        X.x += Combination(order, i) * ((1 - t) ** (order - i)) * (t ** i) * ControlPointsList[i].x 
         X.y += Combination(order, i) * ((1 - t) ** (order - i)) * (t ** i) * ControlPointsList[i].y
     return X
 
-def GeneralBruteForceBezier(ControlPointsList, iteration) -> list[Point]:
-    return [GeneralBezierFormula(ControlPointsList, n/iteration) for n in range(iteration+1)]
+def GeneralBruteForceBezier(ControlPointsList, iteration) -> list[Point]: #algoritma pembentukan kurva bezier yang sudah digeneralisasi secara bruteforce
+    return [GeneralBezierFormula(ControlPointsList, n/iteration) for n in range(iteration+1)] #kembalikan array yang berisi titik-titik di kurva bezier
 
-# divide and conquer (hanya untuk kurva bezier )
+# divide and conquer (hanya untuk kurva bezier kuadratik)
 def DivideAndConquerQuadraticBezier(ControlPoint0 : Point, ControlPoint1: Point, ControlPoint2: Point, iteration: int,MidpointArray):
     if(iteration > 0): #selama iterasinya belum mencapai 0
         Midpoint1 = Midpoint(ControlPoint0,ControlPoint1,"KIRI") #cari titik tengah di antara garis di control point 0 dan control point 1
@@ -48,16 +49,16 @@ def DivideAndConquerQuadraticBezier(ControlPoint0 : Point, ControlPoint1: Point,
 
 def GeneralDivideAndConquerBezier(ControlPointsList : list[Point], iteration: int, MidpointArray):
     if(iteration > 0): #selama iterasinya belum mencapai 0
-        order = len(ControlPointsList) - 1
+        order = len(ControlPointsList) - 1 #derajat kurva bezier
         NewLeft = [ControlPointsList[0]]
         NewRight = [ControlPointsList[order]]
         ExtraPoint = Point(0, 0, "NEW")
-        for i in range (order, 0, -1):
-            if (i == 1):
-                if ((order + 1) == 2): # jaga jaga kalau tiba tiba masukan pointnya cuma dua. Kalau merasa tidak perlu hapus kondisi ini (langsung ke else dibawahnya)
+        for i in range (order, 0, -1): #iterasi mundur dari derajat
+            if (i == 1): 
+                if ((order + 1) == 2): # edge case jika banyak control point = 2
                     ExtraPoint = Midpoint(ControlPointsList[0], ControlPointsList[1], "NEW")
                 else:
-                    ExtraPoint = Midpoint(MidpointArray[len(MidpointArray) - 2], MidpointArray[len(MidpointArray) - 1], "NEW")
+                    ExtraPoint = Midpoint(MidpointArray[len(MidpointArray) - 2], MidpointArray[len(MidpointArray) - 1], "NEW") #titik di kurva bezier
                 NewLeft.append(ExtraPoint)
                 NewRight = [ExtraPoint] + NewRight
             elif (i == order):
@@ -83,7 +84,7 @@ def GeneralDivideAndConquerBezier(ControlPointsList : list[Point], iteration: in
                         NewPoint = Midpoint(MidpointArray[len(MidpointArray) - i - 1], MidpointArray[len(MidpointArray) - i], "TENGAH")
                     MidpointArray.append(NewPoint)
         GeneralDivideAndConquerBezier(NewLeft,iteration-1,MidpointArray) #divide permasalahan ke kiri
-        MidpointArray.append(ExtraPoint)
+        MidpointArray.append(ExtraPoint) 
         GeneralDivideAndConquerBezier(NewRight,iteration-1,MidpointArray) #divide permasalahan ke kanan
     return
     
