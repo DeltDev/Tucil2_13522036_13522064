@@ -8,6 +8,8 @@ from tkinter import messagebox as msgbox
 def SpawnMainWindow(initWindow,CTRLPOINTNUM):
     try: #handling kevalidan input jumlah control point
         ctrlPointCount = int(CTRLPOINTNUM.get())
+        if(ctrlPointCount <= 1): #handling input banyak titik kurang dari atau sama dengan 1
+            raise ValueError
         initWindow.destroy()
     except ValueError: #keluarkan pesan error jika input tidak valid
         msgbox.showerror("Program Error", "Input Anda tidak valid! \n Silahkan ulangi input data Anda.")
