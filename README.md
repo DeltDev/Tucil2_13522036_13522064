@@ -3,9 +3,10 @@
 
 ### JANGAN LAKUKAN SALAH SATUPUN DARI YANG DIBAWAH INI AGAR PROGRAM INI TIDAK MENGALAMI NOT RESPONDING!
 **1. Membuka window lain saat window visualisasi sedang berjalan** <br>
-** Menutup/Meminimize window visualisasi saat visualisasi sedang berlangsung** <br>
+**2. Menutup/Meminimize window visualisasi saat visualisasi sedang berlangsung** <br>
 <br>
 <font color="green" size = "4"> Disarankan untuk menekan tombol close <b>SETELAH PROSES VISUALISASI KURVA BEZIER SELESAI. </b>Akan ada jeda waktu selama 10 detik setelah visualisasi kurva bezier selesai bagi pengguna untuk menekan tombol close. Jika tombol close tidak ditekan selama jeda waktu tersebut, <b>proses visualisasi akan diulang dari awal kembali.</b>  </font><br>
+<br>
 <font color="green" size = "4">Jika Anda tidak melakukan kedua hal di atas, proses visualisasi tetap akan berfungsi sebagaimana mestinya.</font><br>
 # Deskripsi Singkat
 Program ini adalah sebuah program yang bertujuan untuk melakukan simulasi kurva bezier dengan **n buah** control point.
