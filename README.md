@@ -8,6 +8,7 @@
 <font color="green" size = "4"> Disarankan untuk menekan tombol close <b>SETELAH PROSES VISUALISASI KURVA BEZIER SELESAI. </b>Akan ada jeda waktu selama 10 detik setelah visualisasi kurva bezier selesai bagi pengguna untuk menekan tombol close. Jika tombol close tidak ditekan selama jeda waktu tersebut, <b>proses visualisasi kurva bezier akan diulang dari awal kembali.</b>  </font><br>
 <br>
 <font color="green" size = "4">Jika Anda tidak melakukan kedua hal di atas, proses visualisasi kurva bezier tetap akan berfungsi sebagaimana mestinya.</font><br>
+Hal ini bisa terjadi karena visualizer di program ini menggunakan pygame dan pygame memiliki beberapa masalah saat menutup program terutama jika melakukan looping visualisasi.
 # Deskripsi Singkat
 Program ini adalah sebuah program yang bertujuan untuk melakukan simulasi kurva bezier dengan **n buah** control point.
 
@@ -30,7 +31,7 @@ Program ini adalah sebuah program yang bertujuan untuk melakukan simulasi kurva 
 4. Tunggu sampai proses building selesai dan akan ada file executable yang tersimpan di dalam folder bin dengan nama ```Bezier Curve Simulation.exe```
 # Cara Menggunakan Program
 1. Anda dapat membuka ```Bezier Curve Simulation.exe``` di dalam folder bin di repository ini, melakukan prosedur di [Cara Mengompilasi Program](#cara-mengompilasi-program), atau melakukan prosedur di [Cara Membuild Program](#cara-membuild-program).
-2. Ikuti video tata cara penggunaan program ini.
+2. Ikuti video tata cara penggunaan program ini. [Klik di sini untuk membuka video tutorial cara menggunakan program ini](https://www.youtube.com/watch?v=Nws8BhmezXQ)
 
 # Keterangan Warna Di Visualizer
 1. Titik berwarna <font color = "blue" size = 3>**biru**</font> di dalam visualizer program ini adalah **Control Point** dan garis berwarna <font color = "blue" size = 3>**biru**</font> adalah **garis penghubung control point**.
